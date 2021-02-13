@@ -23,14 +23,15 @@
             android:layout_height="0dp"
             android:layout_weight="0.8"
             android:orientation="horizontal">
-            <ImageButton
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_IMG_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                android:padding="20dp"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/userlogo">
-            </ImageButton>
+                android:src="@drawable/profile"
+                android:padding="50dp"
+                app:civ_border_color="@color/yellow"
+                app:civ_border_width="10dp">
+            </de.hdodenhof.circleimageview.CircleImageView>
 
 
         </LinearLayout>
@@ -53,9 +54,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/yellow"
-                        android:text="Sign In: "
+                        android:text="User Name: "
                         android:textSize="22sp"/>
                     <TextView
+                        android:id="@+id/profile_TXT_userName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
@@ -65,14 +67,16 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/yellow"
-                        android:text="Email "
+                        android:text="Email: "
                         android:textSize="22sp"/>
                     <TextView
+                        android:id="@+id/profile_TXT_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
@@ -82,7 +86,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -90,10 +95,11 @@
                         android:text="Favorite Games: "
                         android:textSize="22sp"/>
                     <TextView
+                        android:id="@+id/profile_TXT_favorite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="80"
+                        android:text="2"
                         android:textSize="22sp"/>
                 </LinearLayout>
 

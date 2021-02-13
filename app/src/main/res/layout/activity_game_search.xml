@@ -45,14 +45,15 @@
                 android:paddingVertical="30dp"
                 android:paddingLeft="60dp"
                 >
-                <ImageButton
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/gamePage_IMG_profile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:scaleType="fitCenter"
-                    android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/userlogo">
-                </ImageButton>
+                    android:src="@drawable/profile"
+                    app:civ_border_color="@color/yellow"
+                    app:civ_border_width="1dp">
+                </de.hdodenhof.circleimageview.CircleImageView>
             </LinearLayout>
 
         </LinearLayout>
@@ -62,28 +63,30 @@
             android:layout_height="0dp"
             android:layout_weight="0.5"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:paddingVertical="20dp"
-                tools:ignore="NestedWeights">
-            </ImageView>
+
             <EditText
+                android:id="@+id/search_ETX_search"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:text="Search Game"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="@color/light_gray"
+                android:background="@color/blue_light"
+                android:layout_marginVertical="20dp"
+                android:textSize="18sp"
+                android:autofillHints=""
+                android:hint="Search..."
+                android:inputType="text"
+                tools:ignore="LabelFor" />
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:layout_marginVertical="20dp"
+                android:backgroundTint="@color/Transparent"
+                android:textColor="@color/yellow"
+                style="?android:attr/borderlessButtonStyle"
                 android:text="Search"
-                android:textSize="10dp"
+                android:textSize="20sp"
                 />
         </LinearLayout>
 
@@ -139,8 +142,10 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/blue_heavy"
+                app:backgroundTint="@color/yellow"
                 android:layout_marginHorizontal="50dp"
-                android:layout_marginVertical="70dp"
+                android:layout_marginTop="90dp"
                 android:text="Random Me"/>
         </LinearLayout>
 

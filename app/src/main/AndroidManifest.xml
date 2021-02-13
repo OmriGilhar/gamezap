@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Gamezap">
+        android:theme="@style/Theme.Design.NoActionBar">
 
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
@@ -23,11 +23,10 @@
             android:value="true" />
 
         <activity
-            android:name=".GameSearch"
-            android:label="@string/title_activity_game_search">
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,11 +35,12 @@
             android:label="@string/title_activity_sign_up">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity
+            android:name=".GameSearch"
+            android:label="@string/title_activity_game_search">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
