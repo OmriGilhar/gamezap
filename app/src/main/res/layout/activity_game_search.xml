@@ -101,8 +101,7 @@
             android:id="@+id/gameSearch_RCY_topGames"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:orientation="horizontal">
+            android:layout_weight="1">
         </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
@@ -116,7 +115,7 @@
             android:id="@+id/gameSearch_RCY_UnderPrice"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:orientation="horizontal">
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -131,21 +130,21 @@
             android:id="@+id/gameSearch_RCY_general"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:orientation="horizontal">
         </androidx.recyclerview.widget.RecyclerView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="0.5">
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/blue_heavy"
                 app:backgroundTint="@color/yellow"
                 android:layout_marginHorizontal="50dp"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="10dp"
                 android:text="Random Me"/>
         </LinearLayout>
 
