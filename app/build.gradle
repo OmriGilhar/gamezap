@@ -27,6 +27,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -39,6 +41,12 @@ dependencies {
     compileOnly 'com.google.android.wearable:wearable:2.8.1'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:26.5.0')
+    // Add the dependency for the Firebase SDK for Google Analytics
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'

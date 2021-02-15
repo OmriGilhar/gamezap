@@ -1,8 +1,15 @@
 package com.example.gamezap.businessLogic;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.gamezap.GamePage;
+import com.example.gamezap.GameSearch;
+import com.example.gamezap.ProfilePage;
 import com.example.gamezap.R;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +25,17 @@ public class Adapter_Game extends RecyclerView.Adapter<Adapter_Game.MyViewHolder
     private List<Game> games;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private User user;
 
     // data is passed into the constructor
-    public Adapter_Game(Context context, List<Game> games) {
+    public Adapter_Game(Context context, List<Game> games, User user) {
         this.mInflater = LayoutInflater.from(context);
         this.games = games;
+        this.user = user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     // inflates the row layout from xml when needed
@@ -36,10 +49,19 @@ public class Adapter_Game extends RecyclerView.Adapter<Adapter_Game.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Game game = games.get(position);
+
         Glide
                 .with(mInflater.getContext())
                 .load(game.getImageLink())
+                .apply(new RequestOptions().override(100, 140))
                 .into(holder.game_IMG_cover);
+        holder.game_IMG_cover.setOnClickListener(v -> {
+            Intent profileActivity = new Intent(mInflater.getContext(), GamePage.class);
+            profileActivity.putExtra("userDetails", this.user);
+            profileActivity.putExtra("gameDetails", game);
+
+            ((Activity)mInflater.getContext()).startActivityForResult(profileActivity, 1);
+        });
     }
 
     // total number of rows

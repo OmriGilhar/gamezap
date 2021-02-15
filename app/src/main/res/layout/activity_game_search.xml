@@ -42,17 +42,20 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingVertical="30dp"
+                android:paddingVertical="20dp"
                 android:paddingLeft="60dp"
                 >
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/gamePage_IMG_profile"
+                    android:id="@+id/gameSearch_IMG_profile"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/profile"
                     app:civ_border_color="@color/yellow"
-                    app:civ_border_width="1dp">
+                    app:civ_border_width="1dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
                 </de.hdodenhof.circleimageview.CircleImageView>
             </LinearLayout>
 
@@ -78,10 +81,11 @@
                 android:inputType="text"
                 tools:ignore="LabelFor" />
             <Button
+                android:id="@+id/gameSearch_BTN_search"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginVertical="20dp"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="@color/Transparent"
                 android:textColor="@color/yellow"
                 style="?android:attr/borderlessButtonStyle"
@@ -139,6 +143,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.5">
             <Button
+                android:id="@+id/gameSearch_BTN_random"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/blue_heavy"

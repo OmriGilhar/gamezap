@@ -50,7 +50,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/profile"
                     app:civ_border_color="@color/yellow"
                     app:civ_border_width="1dp">
                 </de.hdodenhof.circleimageview.CircleImageView>
@@ -72,14 +71,18 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:paddingStart="3.5dp"
+                    android:paddingTop="2dp"
                     android:scaleType="fitStart"
                     android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/add_fav_star"/>
+                    app:srcCompat="@drawable/add_fav_star"
+                    tools:ignore="RtlSymmetry" />
                 <TextView
                     android:id="@+id/gamePage_TXT_favorite"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="14"
+                    android:layout_marginLeft="5dp"
                     android:text="Add to Favorite"
                     android:textSize="12sp"
                     android:textColor="@color/white"/>
@@ -96,9 +99,9 @@
                     android:id="@+id/gamePage_IMG_gameCover"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:ignore="NestedWeights"
-                    app:srcCompat="@drawable/bl3_cover">
+                    android:background="@color/Transparent"
+                    android:scaleType="fitXY"
+                    tools:ignore="NestedWeights">
                 </ImageView>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -121,6 +124,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="4"
+                        android:scrollbars = "vertical"
                         android:text="Borderlands 3 is an action role-playing first-person shooter video game developed by Gearbox Software and published by 2K Games. It is a sequel to 2012's Borderlands 2, and the fourth entry in the main Borderlands series"
                         android:textSize="15sp"
                         android:textColor="@color/white"

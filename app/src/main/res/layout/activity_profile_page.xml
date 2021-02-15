@@ -27,7 +27,6 @@
                 android:id="@+id/profile_IMG_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/profile"
                 android:padding="50dp"
                 app:civ_border_color="@color/yellow"
                 app:civ_border_width="10dp">
@@ -123,7 +122,7 @@
                 android:text="My Favorite Games"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/gameSearch_RCY_topGames"
+                android:id="@+id/profile_RCY_favorite_games"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"

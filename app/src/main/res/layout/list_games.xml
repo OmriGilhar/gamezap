@@ -5,10 +5,12 @@
     android:layout_height="wrap_content"
     android:gravity="center">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/game_IMG_cover"
         android:layout_width="100dp"
         android:layout_height="140dp"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        android:background="@color/Transparent"
+        android:scaleType="fitXY"/>
 
 </RelativeLayout>

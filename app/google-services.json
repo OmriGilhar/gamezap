@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "356164381959",
+    "project_id": "gamezap-e64da",
+    "storage_bucket": "gamezap-e64da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356164381959:android:40cce801cef1f3c1eaa9a2",
+        "android_client_info": {
+          "package_name": "com.example.gamezap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356164381959-ptg54p08gbiqebft3g9mvjbbndutbf8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqZLcS1JZecWL_EaMui3zdwrYz8-T_KCE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356164381959-ptg54p08gbiqebft3g9mvjbbndutbf8h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

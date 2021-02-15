@@ -1,21 +1,23 @@
 package com.example.gamezap.businessLogic;
 
-public class Game {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Game implements Parcelable {
     private String name;
     private String imageLink;
-    private double price;
     private String description;
     private String releaseDate;
 
     public Game() { }
 
-    public Game(String name, String imageLink, double price, String description, String releaseDate){
+    public Game(String name, String imageLink, String description, String releaseDate){
         this.setName(name);
         this.setImageLink(imageLink);
-        this.setPrice(price);
         this.setDescription(description);
         this.setReleaseDate(releaseDate);
     }
+
 
     public String getName() {
         return name;
@@ -33,14 +35,6 @@ public class Game {
         this.imageLink = imageLink;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -56,4 +50,38 @@ public class Game {
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+    
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(imageLink);
+        dest.writeString(description);
+        dest.writeString(releaseDate);
+    }
+
+    protected Game(Parcel in) {
+        name = in.readString();
+        imageLink = in.readString();
+        description = in.readString();
+        releaseDate = in.readString();
+    }
+
+    public static final Creator<Game> CREATOR = new Creator<Game>() {
+        @Override
+        public Game createFromParcel(Parcel in) {
+            return new Game(in);
+        }
+
+        @Override
+        public Game[] newArray(int size) {
+            return new Game[size];
+        }
+    };
+
+
 }

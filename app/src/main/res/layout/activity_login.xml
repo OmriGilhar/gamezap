@@ -22,7 +22,8 @@
             android:layout_height="0dp"
             android:layout_weight="0.3"
             android:paddingVertical="25dp"
-            app:srcCompat="@drawable/logoorig_trans">
+            app:srcCompat="@drawable/logoorig_trans"
+            android:contentDescription="TODO">
 
         </ImageView>
 
