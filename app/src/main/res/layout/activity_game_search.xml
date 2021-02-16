@@ -67,8 +67,8 @@
             android:layout_weight="0.5"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/search_ETX_search"
+            <SearchView
+                android:id="@+id/search_SRV_search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -76,10 +76,10 @@
                 android:background="@color/blue_light"
                 android:layout_marginVertical="20dp"
                 android:textSize="18sp"
-                android:autofillHints=""
-                android:hint="Search..."
-                android:inputType="text"
-                tools:ignore="LabelFor" />
+                android:inputType="text">
+                <requestFocus />
+            </SearchView>
+
             <Button
                 android:id="@+id/gameSearch_BTN_search"
                 android:layout_width="0dp"
@@ -99,10 +99,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/white"
-            android:text="Top Games"/>
+            android:text="Top Sellers"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/gameSearch_RCY_topGames"
+            android:id="@+id/gameSearch_RCY_topSellers"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -113,10 +113,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/white"
-            android:text="Under $"/>
+            android:text="New Releases"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/gameSearch_RCY_UnderPrice"
+            android:id="@+id/gameSearch_RCY_newReleases"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -128,10 +128,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/white"
-            android:text="General"/>
+            android:text="Coming Soon"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/gameSearch_RCY_general"
+            android:id="@+id/gameSearch_RCY_comingSoon"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -155,4 +155,5 @@
 
 
     </LinearLayout>
+
 </RelativeLayout>
