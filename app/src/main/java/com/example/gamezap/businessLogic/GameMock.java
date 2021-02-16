@@ -8,6 +8,7 @@ public class GameMock {
         ArrayList<Game> games = new ArrayList<>();
 
         games.add(new Game(
+                1,
                 "Borderlands 3",
                 "https://www.posterarthouse.com/media/catalog/product/cache/c687aa7517cf01e65c009f6943c2b1e9/1/6/160886.jpg",
                 "The original shooter-looter returns, packing bazillions of guns and a mayhem-fueled adventure! Blast through new worlds & enemies and save your home from the most ruthless cult leaders in the galaxy.",
@@ -15,6 +16,7 @@ public class GameMock {
         ));
 
         games.add(new Game(
+                2,
                         "Rust",
                         "https://store.speedtree.com/site-assets/uploads/Rust-cover.jpg",
                         "The only aim in Rust is to survive - Overcome struggles such as hunger, thirst and cold. Build a fire. Build a shelter. Kill animals. Protect yourself from other players.",
@@ -22,6 +24,7 @@ public class GameMock {
         ));
 
         games.add(new Game(
+                3,
                 "Little Nightmares II",
                 "https://s3.gaming-cdn.com/images/products/5381/orig/little-nightmares-ii-cover.jpg",
                 "Little Nightmares II is a suspense adventure game in which you play as Mono, a young boy trapped in a world that has been distorted by an evil transmission. Together with new friend Six, he sets out to discover the source of the Transmission.",
@@ -29,6 +32,7 @@ public class GameMock {
         ));
 
         games.add(new Game(
+                4,
                 "Red Dead Redemption 2",
                 "https://assets.vg247.com/current//2018/05/red_dead_redemption_2_cover_art_1.jpg",
                 "Little Nightmares II is a suspense adventure game in which you play as Mono, a young boy trapped in a world that has been distorted by an evil transmission. Together with new friend Six, he sets out to discover the source of the Transmission.",
@@ -36,6 +40,7 @@ public class GameMock {
         ));
 
         games.add(new Game(
+                5,
                 "CyberPunk 2077",
                 "https://s1.gaming-cdn.com/images/products/840/orig/cyberpunk-2077-cover.jpg",
                 "Cyberpunk 2077 is an open-world, action-adventure story set in Night City, a megalopolis obsessed with power, glamour and body modification. You play as V, a mercenary outlaw going after a one-of-a-kind implant that is the key to immortality.",
@@ -43,6 +48,7 @@ public class GameMock {
         ));
 
         games.add(new Game(
+                6,
                 "Counter-Strike: Global Offensive",
                 "https://static.wikia.nocookie.net/cswikia/images/1/1e/Csgo_steam_store_header_latest.jpg/revision/latest?cb=20170630034202",
                 "Counter-Strike: Global Offensive (CS: GO) expands upon the team-based action gameplay that it pioneered when it was launched 19 years ago. CS: GO features new maps, characters, weapons, and game modes, and delivers updated versions of the classic CS content (de_dust2, etc.).",
