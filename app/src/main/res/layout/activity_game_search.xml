@@ -113,10 +113,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/white"
-            android:text="New Releases"/>
+            android:text="Specials"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/gameSearch_RCY_newReleases"
+            android:id="@+id/gameSearch_RCY_specials"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"

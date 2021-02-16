@@ -53,7 +53,7 @@ public class Adapter_Game extends RecyclerView.Adapter<Adapter_Game.MyViewHolder
         Glide
                 .with(mInflater.getContext())
                 .load(game.getImageLink())
-                .apply(new RequestOptions().override(100, 140))
+                .apply(new RequestOptions().override(180, 140))
                 .into(holder.game_IMG_cover);
         holder.game_IMG_cover.setOnClickListener(v -> {
             Intent profileActivity = new Intent(mInflater.getContext(), GamePage.class);
