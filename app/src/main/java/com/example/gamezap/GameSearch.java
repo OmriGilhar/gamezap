@@ -22,6 +22,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.gamezap.businessLogic.Adapter_Game;
+import com.example.gamezap.businessLogic.Game;
 import com.example.gamezap.businessLogic.SteamFeature;
 import com.example.gamezap.businessLogic.User;
 import com.example.gamezap.network.RequestQueueSingleton;
@@ -30,15 +31,19 @@ import com.example.gamezap.utils.SteamJsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.List;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GameSearch extends AppCompatActivity {
     private User user;
-    private RequestQueue requestQueue;
+    private Game randomGame;
     private List<SteamFeature> steamFeatures;
-    private Adapter_Game adapter_games;
+    private Adapter_Game adapter_comingSoon_games;
+    private Adapter_Game adapter_specials_games;
+    private Adapter_Game adapter_topSellers_games;
     private RecyclerView gameSearch_RCY_topSellers;
     private RecyclerView gameSearch_RCY_specials;
     private RecyclerView gameSearch_RCY_comingSoon;
@@ -68,15 +73,37 @@ public class GameSearch extends AppCompatActivity {
 
     private void initViews() {
         getUserDetails();
-
-        // Set the horizontal layout manager as the layout manager of the recycle views.
-        gameSearch_RCY_topSellers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        gameSearch_RCY_specials.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        gameSearch_RCY_comingSoon.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        initRecycleViews();
         setProfile();
         setupNetwork();
         requestGames();
         initSearchBar();
+        initRandomButton();
+    }
+
+    private void initRandomButton() {
+        gameSearch_BTN_random.setOnClickListener(v -> {
+            int steamAppSize = 110000;
+            int numToRand = new Random().nextInt(steamAppSize - 2) + 2;
+            requestGameByID(numToRand);
+        });
+
+    }
+
+    private void goToRandomGame(Game game) {
+        Intent gamePageActivity = new Intent(this, GamePage.class);
+        gamePageActivity.putExtra("userDetails", this.user);
+        gamePageActivity.putExtra("gameDetails", game);
+
+        this.startActivityForResult(gamePageActivity, 1);
+    }
+
+    private void initRecycleViews() {
+        // Set the horizontal layout manager as the layout manager of the recycle views.
+        gameSearch_RCY_topSellers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        gameSearch_RCY_specials.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        gameSearch_RCY_comingSoon.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
     }
 
     private void setupNetwork() {
@@ -88,14 +115,43 @@ public class GameSearch extends AppCompatActivity {
         Network network = new BasicNetwork(new HurlStack());
 
         // Instantiate the RequestQueue with the cache and network.
-        this.requestQueue = RequestQueueSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+        RequestQueue requestQueue = RequestQueueSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
         // Start the queue
-        this.requestQueue.start();
+        requestQueue.start();
 
     }
 
+    private void requestGameByID(int id){
+        // Fixed URL using Steam web api to get content to sliders.
+        String STEAM_GAME_URL = "https://store.steampowered.com/api/appdetails/?appids=" + id;
+        // Request a string response from the provided URL.
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, STEAM_GAME_URL, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            goToRandomGame(SteamJsonParser.parseSteamGame(response, id));
+                        } catch (JSONException e) {
+                            Log.println(Log.ERROR, "Error", e.toString());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Log.println(Log.ERROR, "asdasd", "Request Error" + error.toString());
+                    }
+                });
+
+        // Access the RequestQueue through your singleton class.
+        RequestQueueSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+    }
+
     private void requestGames() {
+        // Fixed URL using Steam web api to get content to sliders.
         String STEAM_URL = "https://store.steampowered.com/api/featuredcategories/";
         // Request a string response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -104,7 +160,10 @@ public class GameSearch extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            // Parse feature category response --> List<SteamFeature>
                             steamFeatures = SteamJsonParser.parseSteamFeatured(response);
+
+                            // Fill sliders with content
                             fillGameSliders();
                         } catch (JSONException e) {
                             Log.println(Log.ERROR, "Error", e.toString());
@@ -115,11 +174,9 @@ public class GameSearch extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-                        Log.println(Log.INFO, "asdasd", "Request Error" + error.toString());
+                        Log.println(Log.ERROR, "asdasd", "Request Error" + error.toString());
                     }
                 });
-
-
 
         // Access the RequestQueue through your singleton class.
         RequestQueueSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
@@ -171,21 +228,18 @@ public class GameSearch extends AppCompatActivity {
     }
 
     private void fillComingSoon() {
-        // Mock games and insert them to the recycle view
-        this.adapter_games = new Adapter_Game(this, steamFeatures.get(1).getGames(), this.user);
-        gameSearch_RCY_comingSoon.setAdapter(adapter_games);
+        this.adapter_comingSoon_games = new Adapter_Game(this, steamFeatures.get(1).getGames(), this.user);
+        gameSearch_RCY_comingSoon.setAdapter(adapter_comingSoon_games);
     }
 
     private void fillSpecials() {
-        // Mock games and insert them to the recycle view
-        this.adapter_games = new Adapter_Game(this, steamFeatures.get(4).getGames(), this.user);
-        gameSearch_RCY_specials.setAdapter(adapter_games);
+        this.adapter_specials_games = new Adapter_Game(this, steamFeatures.get(4).getGames(), this.user);
+        gameSearch_RCY_specials.setAdapter(adapter_specials_games);
     }
 
     private void fillTopSellers() {
-        // Mock games and insert them to the recycle view
-        this.adapter_games = new Adapter_Game(this, steamFeatures.get(0).getGames(), this.user);
-        gameSearch_RCY_topSellers.setAdapter(adapter_games);
+        this.adapter_topSellers_games = new Adapter_Game(this, steamFeatures.get(0).getGames(), this.user);
+        gameSearch_RCY_topSellers.setAdapter(adapter_topSellers_games);
     }
 
     @Override
@@ -193,8 +247,10 @@ public class GameSearch extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                this.user = data.getParcelableExtra("userDetails");
-                this.adapter_games.setUser(this.user);
+                user = data.getParcelableExtra("userDetails");
+                this.adapter_comingSoon_games.setUser(user);
+                this.adapter_topSellers_games.setUser(user);
+                this.adapter_specials_games.setUser(user);
             }
         }
     }

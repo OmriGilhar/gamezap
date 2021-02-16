@@ -87,4 +87,16 @@ public class ProfilePage extends AppCompatActivity {
         Adapter_Game adapter_games = new Adapter_Game(this, this.user.getFavoriteGames(), user);
         profile_RCY_favorite_games.setAdapter(adapter_games);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                this.user = data.getParcelableExtra("userDetails");
+                setProfileData();
+                setFavoriteGames();
+            }
+        }
+    }
 }

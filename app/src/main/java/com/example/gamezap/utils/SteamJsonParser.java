@@ -33,7 +33,6 @@ public class SteamJsonParser {
                                 "TODO!"
                         ));
                     }
-                    Log.println(Log.INFO,"asdasd", gameList.get(0).getName());
                     list.add(new SteamFeature(
                             feature.getString("id"),
                             feature.getString("name"),
@@ -46,4 +45,39 @@ public class SteamJsonParser {
         }
         return list;
     }
+
+    public static List<String> parseDataToGamePage(JSONObject json, int gameId) throws JSONException {
+        List<String> gameDetail = new ArrayList<>();
+        JSONObject game = json.getJSONObject(String.valueOf(gameId));
+        JSONObject data = game.getJSONObject("data");
+        JSONObject releaseDate = data.getJSONObject("release_date");
+
+        gameDetail.add(data.getString("short_description"));
+        gameDetail.add(releaseDate.getString("date"));
+        try{
+            JSONObject priceOverview = data.getJSONObject("price_overview");
+            gameDetail.add(priceOverview.getString("currency"));
+            gameDetail.add(String.valueOf(priceOverview.getInt("final")));
+        }catch (org.json.JSONException je){
+            gameDetail.add(" ");
+            gameDetail.add("0.00");
+        }
+
+        return gameDetail;
+    }
+
+    public static Game parseSteamGame(JSONObject json, int id) throws JSONException {
+        JSONObject game = json.getJSONObject(String.valueOf(id));
+        JSONObject data = game.getJSONObject("data");
+        JSONObject releaseDate = data.getJSONObject("release_date");
+
+        return new Game(
+                id,
+                data.getString("name"),
+                data.getString("header_image"),
+                data.getString("short_description"),
+                releaseDate.getString("date")
+            );
+    }
+
 }

@@ -2,10 +2,13 @@ package com.example.gamezap.businessLogic;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,14 +26,9 @@ public class Adapter_GamePrice extends RecyclerView.Adapter<Adapter_GamePrice.My
     private Adapter_Game.ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    public Adapter_GamePrice(Context context, Game game) {
+    public Adapter_GamePrice(Context context, List<GamePrice> gamePrices) {
         this.mInflater = LayoutInflater.from(context);
-        callFireBaseForGamePrices(game);
-    }
-
-    private void callFireBaseForGamePrices(Game game){
-        // *** Mock *** FB Call
-        this.gamePrices = GamePriceMock.Companies();
+        this.gamePrices = gamePrices;
     }
 
     // inflates the row layout from xml when needed
@@ -52,8 +50,18 @@ public class Adapter_GamePrice extends RecyclerView.Adapter<Adapter_GamePrice.My
                         .getDrawable(gamePrice.getCompany().getLogo())
         );
 
+        holder.company_IMG_logo.setOnClickListener(v -> {
+            Intent browserIntent;
+            if(gamePrices.get(position).getCompany().getName().equals("Steam")){
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://store.steampowered.com/app/" + gamePrices.get(position).getGame().getId()));
+            }else {
+                browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gamePrices.get(position).getCompany().getURL()));
+            }
+            mInflater.getContext().startActivity(browserIntent);
+        });
+
         holder.company_TXT_name.setText(gamePrice.getCompany().getName());
-        holder.company_TXT_price.setText("" + gamePrice.getPrice()+"$");
+        holder.company_TXT_price.setText("" + gamePrice.getPrice());
     }
 
     // total number of rows
@@ -79,7 +87,7 @@ public class Adapter_GamePrice extends RecyclerView.Adapter<Adapter_GamePrice.My
 
     // stores and recycles views as they are scrolled off screen
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView company_IMG_logo;
+        ImageButton company_IMG_logo;
         TextView company_TXT_name;
         TextView company_TXT_price;
 
