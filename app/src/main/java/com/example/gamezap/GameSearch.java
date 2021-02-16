@@ -40,7 +40,7 @@ public class GameSearch extends AppCompatActivity {
     private List<SteamFeature> steamFeatures;
     private Adapter_Game adapter_games;
     private RecyclerView gameSearch_RCY_topSellers;
-    private RecyclerView gameSearch_RCY_newReleases;
+    private RecyclerView gameSearch_RCY_specials;
     private RecyclerView gameSearch_RCY_comingSoon;
     private CircleImageView gameSearch_IMG_profile;
     private SearchView search_SRV_search;
@@ -58,7 +58,7 @@ public class GameSearch extends AppCompatActivity {
 
     private void findViews() {
         gameSearch_RCY_topSellers = findViewById(R.id.gameSearch_RCY_topSellers);
-        gameSearch_RCY_newReleases = findViewById(R.id.gameSearch_RCY_newReleases);
+        gameSearch_RCY_specials = findViewById(R.id.gameSearch_RCY_specials);
         gameSearch_RCY_comingSoon = findViewById(R.id.gameSearch_RCY_comingSoon);
         gameSearch_IMG_profile = findViewById(R.id.gameSearch_IMG_profile);
         search_SRV_search = findViewById(R.id.search_SRV_search);
@@ -71,7 +71,7 @@ public class GameSearch extends AppCompatActivity {
 
         // Set the horizontal layout manager as the layout manager of the recycle views.
         gameSearch_RCY_topSellers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        gameSearch_RCY_newReleases.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        gameSearch_RCY_specials.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         gameSearch_RCY_comingSoon.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         setProfile();
         setupNetwork();
@@ -166,7 +166,7 @@ public class GameSearch extends AppCompatActivity {
 
     private void fillGameSliders() {
         fillTopSellers();
-        fillLessNewReleases();
+        fillSpecials();
         fillComingSoon();
     }
 
@@ -176,10 +176,10 @@ public class GameSearch extends AppCompatActivity {
         gameSearch_RCY_comingSoon.setAdapter(adapter_games);
     }
 
-    private void fillLessNewReleases() {
+    private void fillSpecials() {
         // Mock games and insert them to the recycle view
-        this.adapter_games = new Adapter_Game(this, steamFeatures.get(3).getGames(), this.user);
-        gameSearch_RCY_newReleases.setAdapter(adapter_games);
+        this.adapter_games = new Adapter_Game(this, steamFeatures.get(4).getGames(), this.user);
+        gameSearch_RCY_specials.setAdapter(adapter_games);
     }
 
     private void fillTopSellers() {
