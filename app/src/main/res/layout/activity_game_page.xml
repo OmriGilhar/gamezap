@@ -115,7 +115,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:text="Borderlands 3"
                         android:textSize="20sp"
                         android:textColor="@color/white"/>
 
@@ -125,7 +124,6 @@
                         android:layout_height="0dp"
                         android:layout_weight="4"
                         android:scrollbars = "vertical"
-                        android:text="Borderlands 3 is an action role-playing first-person shooter video game developed by Gearbox Software and published by 2K Games. It is a sequel to 2012's Borderlands 2, and the fourth entry in the main Borderlands series"
                         android:textSize="15sp"
                         android:textColor="@color/white"
                         tools:ignore="SmallSp" />
@@ -139,7 +137,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="15sp"
+                            android:textSize="12sp"
                             android:text="Release Date: "
                             android:textColor="@color/yellow"/>
 
@@ -147,8 +145,7 @@
                             android:id="@+id/gamePage_TXT_releaseData"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:text="13/09/2019"
+                            android:textSize="12sp"
                             android:textColor="@color/white"/>
                     </LinearLayout>
                 </LinearLayout>

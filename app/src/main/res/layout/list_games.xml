@@ -8,7 +8,7 @@
     <ImageButton
         android:id="@+id/game_IMG_cover"
         android:layout_width="180dp"
-        android:layout_height="140dp"
+        android:layout_height="103dp"
         android:layout_margin="10dp"
         android:background="@color/Transparent"
         android:scaleType="fitXY"/>

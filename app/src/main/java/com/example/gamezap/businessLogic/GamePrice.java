@@ -3,12 +3,12 @@ package com.example.gamezap.businessLogic;
 public class GamePrice {
     private Game game;
     private Company company;
-    private double price;
+    private String price;
 
     public GamePrice() {
     }
 
-    public GamePrice(Game game, Company company, double price) {
+    public GamePrice(Game game, Company company, String price) {
         this.game = game;
         this.company = company;
         this.price = price;
@@ -30,11 +30,11 @@ public class GamePrice {
         this.company = company;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 }

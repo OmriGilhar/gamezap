@@ -56,11 +56,11 @@ public class Adapter_Game extends RecyclerView.Adapter<Adapter_Game.MyViewHolder
                 .apply(new RequestOptions().override(180, 140))
                 .into(holder.game_IMG_cover);
         holder.game_IMG_cover.setOnClickListener(v -> {
-            Intent profileActivity = new Intent(mInflater.getContext(), GamePage.class);
-            profileActivity.putExtra("userDetails", this.user);
-            profileActivity.putExtra("gameDetails", game);
+            Intent gamePageActivity = new Intent(mInflater.getContext(), GamePage.class);
+            gamePageActivity.putExtra("userDetails", this.user);
+            gamePageActivity.putExtra("gameDetails", game);
 
-            ((Activity)mInflater.getContext()).startActivityForResult(profileActivity, 1);
+            ((Activity)mInflater.getContext()).startActivityForResult(gamePageActivity, 1);
         });
     }
 

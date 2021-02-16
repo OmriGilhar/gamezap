@@ -4,7 +4,7 @@ import com.example.gamezap.R;
 
 import java.util.ArrayList;
 
-public class CompanyDB {
+public class CompaniesDB {
     public static ArrayList<Company> Companies() {
         ArrayList<Company> companies = new ArrayList<>();
 
