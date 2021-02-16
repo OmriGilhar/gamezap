@@ -11,11 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.gamezap.businessLogic.Adapter_Game;
-import com.example.gamezap.businessLogic.Game;
-import com.example.gamezap.businessLogic.GameMock;
 import com.example.gamezap.businessLogic.User;
 
-import java.util.ArrayList;
 
 public class ProfilePage extends AppCompatActivity {
 

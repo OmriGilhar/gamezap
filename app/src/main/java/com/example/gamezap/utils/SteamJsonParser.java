@@ -25,13 +25,15 @@ public class SteamJsonParser {
                     List<Game> gameList = new ArrayList<>();
                     for(int j=0; j < games.length(); j++){
                         JSONObject gameDetails = games.getJSONObject(j);
-                        gameList.add(new Game(
-                                gameDetails.getInt("id"),
-                                gameDetails.getString("name"),
-                                gameDetails.getString("large_capsule_image"),
-                                "TODO!",
-                                "TODO!"
-                        ));
+                        if(gameDetails.getInt("type") == 0) {
+                            gameList.add(new Game(
+                                    gameDetails.getInt("id"),
+                                    gameDetails.getString("name"),
+                                    gameDetails.getString("large_capsule_image"),
+                                    "TODO!",
+                                    "TODO!"
+                            ));
+                        }
                     }
                     list.add(new SteamFeature(
                             feature.getString("id"),
