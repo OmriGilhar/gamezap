@@ -86,6 +86,14 @@
                 android:hint="Username"
                 android:inputType="text"
                 tools:ignore="LabelFor" />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/signUp_TXT_signUpFailed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/red_warning_error"
+                android:textSize="15sp"/>
             <Button
                 android:layout_marginTop="20dp"
                 android:id="@+id/signUp_BTN_continue"

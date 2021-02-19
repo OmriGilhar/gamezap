@@ -25,6 +25,7 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.gamezap.businessLogic.Adapter_GamePrice;
+import com.example.gamezap.businessLogic.Adapter_User;
 import com.example.gamezap.businessLogic.CompaniesDB;
 import com.example.gamezap.businessLogic.Company;
 import com.example.gamezap.businessLogic.Game;
@@ -32,6 +33,12 @@ import com.example.gamezap.businessLogic.GamePrice;
 import com.example.gamezap.businessLogic.User;
 import com.example.gamezap.network.RequestQueueSingleton;
 import com.example.gamezap.utils.SteamJsonParser;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 
 import org.json.JSONException;
@@ -39,6 +46,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -56,6 +64,7 @@ public class GamePage extends AppCompatActivity {
     private TextView gamePage_TXT_gameDes;
     private TextView gamePage_TXT_releaseData;
     private RecyclerView gamePage_RCY_Companies;
+    private FirebaseFirestore fireStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +73,13 @@ public class GamePage extends AppCompatActivity {
 
         findViews();
         initViews();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Get FireStore instance
+        fireStore = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -114,17 +130,32 @@ public class GamePage extends AppCompatActivity {
         setFavoriteIcon();
         gamePage_IMGB_favorite.setOnClickListener(v -> {
             if(isFavorite()){
-                for(int i=0; i < user.getFavoriteGames().size(); i++) {
-                    if (user.getFavoriteGames().get(i).getName().equals(this.game.getName())){
-                        user.getFavoriteGames().remove(i);
-                    }
-                }
+                removeGameFromFavorite();
             }else{
-                user.getFavoriteGames().add(game);
+                addGameToFavorite();
             }
-            // TODO: Update FB User
-            setFavoriteIcon();
         });
+    }
+
+    private void removeGameFromFavorite() {
+        for(int i=0; i < user.getFavoriteGames().size(); i++) {
+            if (user.getFavoriteGames().get(i).getName().equals(this.game.getName())){
+                user.getFavoriteGames().remove(i);
+            }
+        }
+        updateUser();
+    }
+
+
+    private void addGameToFavorite() {
+        user.getFavoriteGames().add(game);
+        updateUser();
+    }
+
+    private void updateUser(){
+        DocumentReference docRef = fireStore.collection("users").document(user.getUuid());
+        Map<String, Object> userMap = Adapter_User.serializeUserFB(user);
+        docRef.set(userMap, SetOptions.merge()).addOnSuccessListener(aVoid -> setFavoriteIcon());
     }
 
     private void initGameViews() {
@@ -153,7 +184,7 @@ public class GamePage extends AppCompatActivity {
                             setGameReleaseDate();
                             initRecycleView();
                         } catch (JSONException e) {
-                            Log.println(Log.ERROR, "Error", e.toString());
+                            Log.println(Log.ERROR, "GamePage:Error", e.toString());
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -161,7 +192,7 @@ public class GamePage extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-                        Log.println(Log.ERROR, "asdasd", "Request Error" + error.toString());
+                        Log.println(Log.ERROR, "GamePage:Error", "Request Error" + error.toString());
                     }
                 });
 

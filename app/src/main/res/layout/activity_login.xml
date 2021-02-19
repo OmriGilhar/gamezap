@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/my_gradient_drawable"
-    tools:context=".LoginActivity"
+    tools:context=".Login"
     android:orientation="vertical">
 
     <LinearLayout
@@ -83,8 +83,18 @@
                 android:hint="Your Password"
                 android:autofillHints=""
                 tools:ignore="LabelFor"/>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/login_TXT_signInFailed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/red_warning_error"
+                android:textSize="15sp"/>
+
             <Button
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="10dp"
                 android:id="@+id/login_BTN_signIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,6 +102,7 @@
                 android:textColor="@color/blue_heavy"
                 app:backgroundTint="@color/yellow"
                 android:textSize="20sp"/>
+
 
         </LinearLayout>
 
