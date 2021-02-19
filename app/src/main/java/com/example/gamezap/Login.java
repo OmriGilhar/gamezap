@@ -21,18 +21,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
-
     private EditText login_ETX_email;
     private Animation shake;
     private EditText login_ETX_password;
     private Button login_BTN_signIn;
-    private Button login_BTN_forgotPassword;
     private Button login_BTN_signUp;
     private TextView login_TXT_signInFailed;
     private FirebaseAuth mAuth;
     private FirebaseFirestore fireStore;
     private FirebaseUser user;
-    private User gameZapUser;
 
 
     @Override
@@ -62,7 +59,6 @@ public class Login extends AppCompatActivity {
         login_ETX_email = findViewById(R.id.login_ETX_email);
         login_ETX_password = findViewById(R.id.login_ETX_password);
         login_BTN_signIn = findViewById(R.id.login_BTN_signIn);
-        login_BTN_forgotPassword = findViewById(R.id.login_BTN_forgotPassword);
         login_BTN_signUp = findViewById(R.id.login_BTN_signUp);
         login_TXT_signInFailed = findViewById(R.id.login_TXT_signInFailed);
     }
@@ -71,7 +67,6 @@ public class Login extends AppCompatActivity {
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         login_BTN_signIn.setOnClickListener(v -> signIn(login_ETX_email.getText().toString(),
                 login_ETX_password.getText().toString()));
-        login_BTN_forgotPassword.setOnClickListener(v -> forgotPassword());
         login_BTN_signUp.setOnClickListener(v -> singUp());
     }
 
@@ -83,14 +78,8 @@ public class Login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             login_TXT_signInFailed.setText("");
                             user = mAuth.getCurrentUser();
+                            assert user != null;
                             pullUserFromStorage(user.getUid());
-//                            // Create intent for the Game Search Activity
-//                            Intent gameSearchIntent = new Intent(LoginActivity.this, GameSearch.class);
-//                            // MOCK moving a user to the next view
-//                            gameSearchIntent.putExtra("userDetails", gameZapUser);
-//                            // Start the new Game Search Activity
-//                            LoginActivity.this.startActivity(gameSearchIntent);
-
                         } else {
                             // If sign in fails, display a message to the user.
                             login_TXT_signInFailed.setText("Login Failed\nCheck your password of email");
@@ -107,11 +96,13 @@ public class Login extends AppCompatActivity {
         userRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
+                assert document != null;
                 if (document.exists()) {
                     // Create intent for the Game Search Activity
                     Intent gameSearchIntent = new Intent(Login.this, GameSearch.class);
                     // Moving a user to the next view
                     User gameZapUser = document.toObject(User.class);
+                    assert gameZapUser != null;
                     gameZapUser.setUuid(uid);
                     gameSearchIntent.putExtra("userDetails", gameZapUser);
                     // Start the new Game Search Activity
@@ -141,11 +132,6 @@ public class Login extends AppCompatActivity {
             return false;
         }
         return true;
-    }
-
-    private void forgotPassword() {
-        // Do we need this functionality?
-        Log.println(Log.INFO,"Login:Error", "forgot password clicked");
     }
 
     private void singUp() {

@@ -31,22 +31,24 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingVertical="20dp"
-                tools:ignore="NestedWeights">
+                tools:ignore="NestedWeights"
+                android:contentDescription="@string/empty">
             </ImageView>
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingVertical="20dp"
-                app:srcCompat="@drawable/logoorig_trans">
+                app:srcCompat="@drawable/logoorig_trans"
+                android:contentDescription="@string/gamezap_logo">
             </ImageView>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingVertical="20dp"
-                android:paddingLeft="60dp"
-                >
+                android:paddingStart="60dp"
+                tools:ignore="RtlSymmetry">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/gameSearch_IMG_profile"
                     android:layout_width="0dp"
@@ -66,40 +68,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <SearchView
                 android:id="@+id/search_SRV_search"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:textColor="@color/light_gray"
                 android:background="@color/blue_light"
-                android:layout_marginVertical="20dp"
                 android:textSize="18sp"
                 android:inputType="text">
                 <requestFocus />
             </SearchView>
-
-            <Button
-                android:id="@+id/gameSearch_BTN_search"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/Transparent"
-                android:textColor="@color/yellow"
-                style="?android:attr/borderlessButtonStyle"
-                android:text="Search"
-                android:textSize="20sp"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
         </LinearLayout>
 
         <LinearLayout
@@ -121,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:text="Top Sellers"/>
+                    android:text="@string/gameSearch_TXT_top_sellers"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/gameSearch_RCY_topSellers"
@@ -143,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:text="Specials"/>
+                    android:text="@string/gameSearch_TXT_specials"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/gameSearch_RCY_specials"
@@ -166,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:text="Coming Soon"/>
+                    android:text="@string/gameSearch_TXT_coming_soon"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/gameSearch_RCY_comingSoon"
@@ -194,7 +176,7 @@
                 app:backgroundTint="@color/yellow"
                 android:layout_marginHorizontal="50dp"
                 android:layout_marginTop="10dp"
-                android:text="Random Me"/>
+                android:text="@string/gameSearch_TXT_random_me"/>
         </LinearLayout>
 
 

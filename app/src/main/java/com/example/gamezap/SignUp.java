@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gamezap.businessLogic.Adapter_User;
 import com.example.gamezap.businessLogic.User;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
@@ -25,6 +24,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class SignUp extends AppCompatActivity {
     private EditText signUp_ETX_email;
@@ -91,27 +91,24 @@ public class SignUp extends AppCompatActivity {
                         // Create fresh user.
                         User user = new User(name, email, password);
                         // Add the uuid from firebase auth.
-                        user.setUuid(mAuth.getCurrentUser().getUid());
+                        user.setUuid(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
                         // Create a new document in FireStore for this user in user storage.
                         DocumentReference docRef = fireStore.collection("users").document(user.getUuid());
                         // Using adapter to serialize the user from class to Map format.
                         Map<String, Object> userMap = Adapter_User.serializeUserFB(user);
                         // Feed FireStore storage with the fresh user details.
-                        docRef.set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                // Create intent for the Game Search Activity
-                                Intent gameSearchIntent = new Intent(SignUp.this, GameSearch.class);
-                                // MOCK moving a user to the next view
-                                gameSearchIntent.putExtra("userDetails", user);
-                                // Start the new Game Search Activity
-                                SignUp.this.startActivity(gameSearchIntent);
-                            }
+                        docRef.set(userMap).addOnSuccessListener(aVoid -> {
+                            // Create intent for the Game Search Activity
+                            Intent gameSearchIntent = new Intent(SignUp.this, GameSearch.class);
+                            // MOCK moving a user to the next view
+                            gameSearchIntent.putExtra("userDetails", user);
+                            // Start the new Game Search Activity
+                            SignUp.this.startActivity(gameSearchIntent);
                         });
                     } else {
                         // Manage exception scenarios
                         try {
-                            throw task.getException();
+                            throw Objects.requireNonNull(task.getException());
                         } catch(FirebaseAuthWeakPasswordException e) {
                             throwExceptionMessage(signUp_ETX_password, "Sign Up Failed\nPassword is too weak");
                         } catch(FirebaseAuthInvalidCredentialsException e) {
