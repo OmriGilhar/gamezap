@@ -11,7 +11,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.gamezap.businessLogic.Adapter_Game;
+import com.example.gamezap.businessLogic.Game;
 import com.example.gamezap.businessLogic.User;
+import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProfilePage extends AppCompatActivity {
@@ -21,7 +26,8 @@ public class ProfilePage extends AppCompatActivity {
     private TextView profile_TXT_userName;
     private TextView profile_TXT_email;
     private TextView profile_TXT_favorite;
-    private RecyclerView profile_RCY_favorite_games;
+    private RecyclerView profile_RCY_favorite_left;
+    private RecyclerView profile_RCY_favorite_right;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +52,16 @@ public class ProfilePage extends AppCompatActivity {
         profile_TXT_userName = findViewById(R.id.profile_TXT_userName);
         profile_TXT_email = findViewById(R.id.profile_TXT_email);
         profile_TXT_favorite = findViewById(R.id.profile_TXT_favorite);
-        profile_RCY_favorite_games = findViewById(R.id.profile_RCY_favorite_games);
+        profile_RCY_favorite_left = findViewById(R.id.profile_RCY_favorite_left);
+        profile_RCY_favorite_right = findViewById(R.id.profile_RCY_favorite_right);
     }
 
     private void initViews() {
         getUserDetails();
         setProfilePicture();
         setProfileData();
-        profile_RCY_favorite_games.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        profile_RCY_favorite_left.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        profile_RCY_favorite_right.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         setFavoriteGames();
     }
 
@@ -81,8 +89,33 @@ public class ProfilePage extends AppCompatActivity {
     }
 
     private void setFavoriteGames(){
-        Adapter_Game adapter_games = new Adapter_Game(this, this.user.getFavoriteGames(), user);
-        profile_RCY_favorite_games.setAdapter(adapter_games);
+        Adapter_Game adapter_left = null;
+        Adapter_Game adapter_right = null;
+        if(this.user.getFavoriteGames().size() % 2 == 0){
+            List<List<Game>> lists = Lists.partition(this.user.getFavoriteGames(), (this.user.getFavoriteGames().size() + 1) / 2);
+            adapter_left = new Adapter_Game(this, lists.get(0) , user);
+            adapter_right = new Adapter_Game(this, lists.get(1) , user);
+
+        }
+        else if(this.user.getFavoriteGames().size() > 0){
+            List<Game> gameListLeft = new ArrayList<>();
+            List<Game> gameListRight = new ArrayList<>();
+            int leftList = this.user.getFavoriteGames().size() / 2;
+            int counter = 0;
+            for(int i=0; i < this.user.getFavoriteGames().size(); i++){
+                if(counter <= leftList){
+                    gameListLeft.add(this.user.getFavoriteGames().get(i));
+                    counter++;
+                }else{
+                    gameListRight.add(this.user.getFavoriteGames().get(i));
+                }
+            }
+            adapter_left = new Adapter_Game(this, gameListLeft , user);
+            adapter_right = new Adapter_Game(this, gameListRight , user);
+
+        }
+        profile_RCY_favorite_left.setAdapter(adapter_left);
+        profile_RCY_favorite_right.setAdapter(adapter_right);
     }
 
     @Override

@@ -36,17 +36,4 @@ public class SteamFeature {
     public List<Game> getGames() {
         return games;
     }
-
-    public void setGames(List<Game> games) {
-        this.games = games;
-    }
-
-    public ArrayList<String> getGamesNames(){
-        ArrayList<String> gamesNames = new ArrayList<>();
-        for(Game game: this.getGames()){
-            gamesNames.add(game.getName());
-        }
-        return gamesNames;
-    }
-
 }

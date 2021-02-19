@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/yellow"
-                android:text="Sign Up"
+                android:text="@string/signup_TXT_sign_up"
                 android:textSize="30sp"/>
 
             <TextView
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Email"
+                android:text="@string/signup_TXT_email"
                 android:textSize="20sp"/>
             <EditText
                 android:layout_marginTop="5dp"
@@ -46,7 +46,7 @@
                 android:textColor="@color/light_gray"
                 android:textSize="18sp"
                 android:autofillHints=""
-                android:hint="expamle@mail.com"
+                android:hint="@string/signup_TXT_expamle_mail_com"
                 android:inputType="textEmailAddress"
                 tools:ignore="LabelFor" />
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Password"
+                android:text="@string/signup_TXT_password"
                 android:textSize="20sp"/>
             <EditText
                 android:layout_marginTop="5dp"
@@ -65,7 +65,7 @@
                 android:textSize="18sp"
                 android:inputType="textPassword"
                 android:ellipsize="start"
-                android:hint="Your Password"
+                android:hint="@string/signup_TXT_your_password"
                 android:autofillHints=""
                 tools:ignore="LabelFor"/>
             <TextView
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="User NAme"
+                android:text="@string/signup_TXT_user_name"
                 android:textSize="20sp"/>
             <EditText
                 android:layout_marginTop="5dp"
@@ -83,7 +83,7 @@
                 android:textColor="@color/light_gray"
                 android:textSize="18sp"
                 android:autofillHints=""
-                android:hint="Username"
+                android:hint="@string/signup_TXT_username"
                 android:inputType="text"
                 tools:ignore="LabelFor" />
             <TextView
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/blue_heavy"
                 app:backgroundTint="@color/yellow"
-                android:text="Continue"
+                android:text="@string/signup_TXT_continue"
                 android:textSize="20sp"/>
 
         </LinearLayout>
@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:text="Have an Account?"
+                android:text="@string/signup_TXT_account"
                 android:textSize="20sp"/>
             <Button
                 android:id="@+id/signUp_BTN_signIn"
@@ -127,7 +127,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_marginHorizontal="10dp"
                 android:background="@android:color/transparent"
-                android:text="Sign In"
+                android:text="@string/signup_TXT_sign_in"
                 android:textSize="20sp"/>
 
         </LinearLayout>

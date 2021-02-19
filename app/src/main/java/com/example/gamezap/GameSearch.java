@@ -13,15 +13,8 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.gamezap.businessLogic.Adapter_Game;
@@ -32,7 +25,6 @@ import com.example.gamezap.network.RequestQueueSingleton;
 import com.example.gamezap.utils.SteamJsonParser;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +34,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class GameSearch extends AppCompatActivity {
     private User user;
-    private Game randomGame;
     private List<SteamFeature> steamFeatures;
     private List<Game> gameList;
     private Adapter_Game adapter_comingSoon_games;
@@ -54,7 +45,6 @@ public class GameSearch extends AppCompatActivity {
     private CircleImageView gameSearch_IMG_profile;
     private SearchView search_SRV_search;
     private ListView gameSearch_LVW_gameList;
-    private Button gameSearch_BTN_search;
     private ArrayAdapter adapter;
     private Button gameSearch_BTN_random;
 
@@ -73,7 +63,6 @@ public class GameSearch extends AppCompatActivity {
         gameSearch_RCY_comingSoon = findViewById(R.id.gameSearch_RCY_comingSoon);
         gameSearch_IMG_profile = findViewById(R.id.gameSearch_IMG_profile);
         search_SRV_search = findViewById(R.id.search_SRV_search);
-        gameSearch_BTN_search = findViewById(R.id.gameSearch_BTN_search);
         gameSearch_BTN_random = findViewById(R.id.gameSearch_BTN_random);
         gameSearch_LVW_gameList = findViewById(R.id.gameSearch_LVW_gameList);
     }
@@ -112,13 +101,6 @@ public class GameSearch extends AppCompatActivity {
     }
 
     private void setupNetwork() {
-
-        // Instantiate the cache
-        Cache cache = new DiskBasedCache(getCacheDir(), 2048 * 2048); // 1MB cap
-
-        // Set up the network to use HttpURLConnection as the HTTP client.
-        Network network = new BasicNetwork(new HurlStack());
-
         // Instantiate the RequestQueue with the cache and network.
         RequestQueue requestQueue = RequestQueueSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
@@ -132,33 +114,22 @@ public class GameSearch extends AppCompatActivity {
         String STEAM_GAME_URL = "https://store.steampowered.com/api/appdetails/?appids=" + id;
         // Request a string response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, STEAM_GAME_URL, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        int tries = 0;
-                        int randID;
-                        while(tries != 10){
-                            randID = id + (new Random().nextInt(500 + 1));
-                            try {
-                                if(tries == 9) {
-                                    randID = id;
-                                }
-                                goToRandomGame(SteamJsonParser.parseSteamGame(response, randID));
-                                break;
-                            } catch (JSONException e) {
-                                tries += 1;
+                (Request.Method.GET, STEAM_GAME_URL, null, response -> {
+                    int tries = 0;
+                    int randID;
+                    while(tries != 10){
+                        randID = id + (new Random().nextInt(500 + 1));
+                        try {
+                            if(tries == 9) {
+                                randID = id;
                             }
+                            goToRandomGame(SteamJsonParser.parseSteamGame(response, randID));
+                            break;
+                        } catch (JSONException e) {
+                            tries += 1;
                         }
                     }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        Log.println(Log.ERROR, "GameSearch:Error", "Request Error" + error.toString());
-                    }
-                });
+                }, error -> Log.println(Log.ERROR, "GameSearch:Error", "Request Error" + error.toString()));
 
         // Access the RequestQueue through your singleton class.
         RequestQueueSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
@@ -169,29 +140,14 @@ public class GameSearch extends AppCompatActivity {
         String STEAM_URL = "https://store.steampowered.com/api/featuredcategories/";
         // Request a string response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, STEAM_URL, null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, STEAM_URL, null, response -> {
+                    // Parse feature category response --> List<SteamFeature>
+                    steamFeatures = SteamJsonParser.parseSteamFeatured(response);
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            // Parse feature category response --> List<SteamFeature>
-                            steamFeatures = SteamJsonParser.parseSteamFeatured(response);
-
-                            // Fill sliders with content
-                            fillGameSliders();
-                            initSearchBar();
-                        } catch (JSONException e) {
-                            Log.println(Log.ERROR, "Error", e.toString());
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        Log.println(Log.ERROR, "GameSearch:Error", "Request Error" + error.toString());
-                    }
-                });
+                    // Fill sliders with content
+                    fillGameSliders();
+                    initSearchBar();
+                }, error -> Log.println(Log.ERROR, "GameSearch:Error", "Request Error" + error.toString()));
 
         // Access the RequestQueue through your singleton class.
         RequestQueueSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);

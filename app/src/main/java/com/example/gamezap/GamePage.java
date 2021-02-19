@@ -13,15 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.gamezap.businessLogic.Adapter_GamePrice;
@@ -39,7 +32,6 @@ import com.google.firebase.firestore.SetOptions;
 
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +44,7 @@ public class GamePage extends AppCompatActivity {
 
     private Game game;
     private User user;
-    private List<GamePrice> gamePrices = new ArrayList<>();
+    private final List<GamePrice> gamePrices = new ArrayList<>();
     private CircleImageView gamePage_IMG_profile;
     private ImageButton gamePage_IMGB_favorite;
     private TextView gamePage_TXT_favorite;
@@ -165,33 +157,22 @@ public class GamePage extends AppCompatActivity {
         String STEAM_GAME_URL = "https://store.steampowered.com/api/appdetails/?appids=" + this.game.getId();
         // Request a string response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, STEAM_GAME_URL, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            // Parse feature category response --> List<SteamFeature>
-                            List<String> gameExtras = SteamJsonParser.parseDataToGamePage(response, game.getId());
-                            game.setDescription(gameExtras.get(0));
-                            game.setReleaseDate(gameExtras.get(1));
-                            createGamePrices(gameExtras.get(2), (Double.parseDouble(gameExtras.get(3))/100));
-                            setGameCover();
-                            setGameName();
-                            setGameDescription();
-                            setGameReleaseDate();
-                            initRecycleView();
-                        } catch (JSONException e) {
-                            Log.println(Log.ERROR, "GamePage:Error", e.toString());
-                        }
+                (Request.Method.GET, STEAM_GAME_URL, null, response -> {
+                    try {
+                        // Parse feature category response --> List<SteamFeature>
+                        List<String> gameExtras = SteamJsonParser.parseDataToGamePage(response, game.getId());
+                        game.setDescription(gameExtras.get(0));
+                        game.setReleaseDate(gameExtras.get(1));
+                        createGamePrices(gameExtras.get(2), (Double.parseDouble(gameExtras.get(3))/100));
+                        setGameCover();
+                        setGameName();
+                        setGameDescription();
+                        setGameReleaseDate();
+                        initRecycleView();
+                    } catch (JSONException e) {
+                        Log.println(Log.ERROR, "GamePage:Error", e.toString());
                     }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        Log.println(Log.ERROR, "GamePage:Error", "Request Error" + error.toString());
-                    }
-                });
+                }, error -> Log.println(Log.ERROR, "GamePage:Error", "Request Error" + error.toString()));
 
         // Access the RequestQueue through your singleton class.
         RequestQueueSingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
@@ -199,32 +180,22 @@ public class GamePage extends AppCompatActivity {
 
     @SuppressLint("DefaultLocale")
     private void createGamePrices(String currency, double price) {
-        double numToRand = 0;
+        double numToRand;
         String steamPrice = price + " " + currency;
         for(Company comp: CompaniesDB.Companies()){
-            if(comp.getName().equals("Steam")){
-                this.gamePrices.add(new GamePrice(this.game, comp, steamPrice));
-            }
-            else {
+            if (!comp.getName().equals("Steam")) {
                 if (price > 11.0) {
                     numToRand = (price - 5) + ((price + 5) - (price - 5)) * new Random().nextDouble();
                 } else {
                     numToRand = price;
                 }
                 steamPrice = String.format("%.2f", numToRand) + " " + currency;
-                this.gamePrices.add(new GamePrice(this.game, comp, steamPrice));
             }
+            this.gamePrices.add(new GamePrice(this.game, comp, steamPrice));
         }
     }
 
     private void setupNetwork() {
-
-        // Instantiate the cache
-        Cache cache = new DiskBasedCache(getCacheDir(), 2048 * 2048); // 1MB cap
-
-        // Set up the network to use HttpURLConnection as the HTTP client.
-        Network network = new BasicNetwork(new HurlStack());
-
         // Instantiate the RequestQueue with the cache and network.
         RequestQueue requestQueue = RequestQueueSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
 
@@ -253,6 +224,7 @@ public class GamePage extends AppCompatActivity {
         gamePage_TXT_releaseData.setText(game.getReleaseDate());
     }
 
+    @SuppressLint("SetTextI18n")
     private void setFavoriteIcon() {
        if(isFavorite()){
            gamePage_IMGB_favorite.setImageResource(R.drawable.remove_fav_star);

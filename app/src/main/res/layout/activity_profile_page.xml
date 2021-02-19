@@ -45,7 +45,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingVertical="5dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -53,14 +54,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/yellow"
-                        android:text="User Name: "
+                        android:text="@string/profilePage_TXT_user_name"
                         android:textSize="22sp"/>
                     <TextView
                         android:id="@+id/profile_TXT_userName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="Hosertak"
                         android:textSize="22sp"/>
                 </LinearLayout>
 
@@ -72,14 +72,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/yellow"
-                        android:text="Email: "
+                        android:text="@string/profilePage_TXT_email"
                         android:textSize="22sp"/>
                     <TextView
                         android:id="@+id/profile_TXT_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="Hosertak@gmail.com"
                         android:textSize="22sp"/>
                 </LinearLayout>
 
@@ -91,14 +90,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/yellow"
-                        android:text="Favorite Games: "
+                        android:text="@string/profilePage_TXT_favorite_games"
                         android:textSize="22sp"/>
                     <TextView
                         android:id="@+id/profile_TXT_favorite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="2"
                         android:textSize="22sp"/>
                 </LinearLayout>
 
@@ -119,15 +117,30 @@
                 android:gravity="center"
                 android:textColor="@color/yellow"
                 android:textSize="25sp"
-                android:text="My Favorite Games"/>
+                android:text="@string/profilePage_TXT_my_favorite_games"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:gravity="center">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/profile_RCY_favorite_left"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical"
+                    tools:ignore="NestedWeights">
+                </androidx.recyclerview.widget.RecyclerView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/profile_RCY_favorite_right"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical"
+                    tools:ignore="NestedWeights">
+                </androidx.recyclerview.widget.RecyclerView>
+            </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/profile_RCY_favorite_games"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
-            </androidx.recyclerview.widget.RecyclerView>
 
 
         </LinearLayout>

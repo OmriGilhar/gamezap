@@ -2,11 +2,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="150dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="140dp">
 
         <ImageButton
             android:id="@+id/company_IMG_logo"
@@ -15,7 +15,7 @@
             android:layout_weight="1"
             android:scaleType="fitXY"
             android:layout_margin="30dp"
-            android:background="@drawable/_280px_steam_icon_logo"/>
+            android:contentDescription="@string/company_IMG_logoDesc" />
 
         <TextView
             android:id="@+id/company_TXT_name"
@@ -23,8 +23,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:textColor="@color/yellow"
-            android:textSize="15dp"
-            android:text="Steam"
+            android:textSize="15sp"
             android:gravity="center"/>
 
         <TextView
@@ -33,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text=""
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:textColor="@color/yellow"
             android:layout_margin="20dp"
             android:gravity="center"/>
