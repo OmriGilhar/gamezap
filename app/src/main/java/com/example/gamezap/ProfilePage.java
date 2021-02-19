@@ -36,7 +36,7 @@ public class ProfilePage extends AppCompatActivity {
     @Override
     public void finish() {
         Intent data = new Intent();
-        data.putExtra("userDetails", user);
+        data.putExtra("userDetails", this.user);
         setResult(RESULT_OK, data);
         super.finish();
     }

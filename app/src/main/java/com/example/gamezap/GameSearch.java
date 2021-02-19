@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.android.volley.Cache;
 import com.android.volley.Network;
@@ -32,8 +36,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.GenericArrayType;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -49,7 +56,9 @@ public class GameSearch extends AppCompatActivity {
     private RecyclerView gameSearch_RCY_comingSoon;
     private CircleImageView gameSearch_IMG_profile;
     private SearchView search_SRV_search;
+    private ListView gameSearch_LVW_gameList;
     private Button gameSearch_BTN_search;
+    private ArrayAdapter adapter;
     private Button gameSearch_BTN_random;
 
     @Override
@@ -69,6 +78,7 @@ public class GameSearch extends AppCompatActivity {
         search_SRV_search = findViewById(R.id.search_SRV_search);
         gameSearch_BTN_search = findViewById(R.id.gameSearch_BTN_search);
         gameSearch_BTN_random = findViewById(R.id.gameSearch_BTN_random);
+        gameSearch_LVW_gameList = findViewById(R.id.gameSearch_LVW_gameList);
     }
 
     private void initViews() {
@@ -77,7 +87,6 @@ public class GameSearch extends AppCompatActivity {
         setProfile();
         setupNetwork();
         requestGames();
-        initSearchBar();
         initRandomButton();
     }
 
@@ -142,7 +151,7 @@ public class GameSearch extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-                        Log.println(Log.ERROR, "asdasd", "Request Error" + error.toString());
+                        Log.println(Log.ERROR, "GameSearch:Error", "Request Error" + error.toString());
                     }
                 });
 
@@ -165,6 +174,7 @@ public class GameSearch extends AppCompatActivity {
 
                             // Fill sliders with content
                             fillGameSliders();
+                            initSearchBar();
                         } catch (JSONException e) {
                             Log.println(Log.ERROR, "Error", e.toString());
                         }
@@ -174,7 +184,7 @@ public class GameSearch extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO: Handle error
-                        Log.println(Log.ERROR, "asdasd", "Request Error" + error.toString());
+                        Log.println(Log.ERROR, "GameSearch:Error", "Request Error" + error.toString());
                     }
                 });
 
@@ -183,25 +193,32 @@ public class GameSearch extends AppCompatActivity {
     }
 
     private void initSearchBar() {
+        search_SRV_search.setQueryHint("Search Game...");
+        List<String> newList = new ArrayList<>();
+        for(SteamFeature feature: steamFeatures) {
+            newList.addAll(feature.getGamesNames());
+        }
+        for(int i=0; i<newList.size(); i++){
+            Log.println(Log.INFO, "asdasd", newList.get(i));
+        }
+        adapter = new ArrayAdapter<>(GameSearch.this, android.R.layout.simple_list_item_1, newList);
+        gameSearch_LVW_gameList.setAdapter(adapter);
         search_SRV_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // do something on text submit, send FB query with the game name.
-
+                if(newList.contains(query)){
+                    adapter.getFilter().filter(query);
+                }else{
+                    Toast.makeText(GameSearch.this, "No Match found", Toast.LENGTH_LONG).show();
+                }
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
                 return false;
             }
         });
-
-    }
-
-    private void searchGame(){
-        CharSequence query = search_SRV_search.getQuery();
-        search_SRV_search.setQueryHint("Search Game...");
     }
 
     private void setProfile() {
@@ -212,13 +229,15 @@ public class GameSearch extends AppCompatActivity {
             .into(gameSearch_IMG_profile);
 
         // When user wants to move to his profile page.
-        gameSearch_IMG_profile.setOnClickListener(view -> {
-            Intent profileActivity = new Intent(GameSearch.this, ProfilePage.class);
+        gameSearch_IMG_profile.setOnClickListener(view -> moveToProfilePage());
+    }
 
-            profileActivity.putExtra("userDetails", this.user);
+    private void moveToProfilePage(){
+        Intent profileActivity = new Intent(this, ProfilePage.class);
 
-            GameSearch.this.startActivityForResult(profileActivity, RESULT_OK);
-        });
+        profileActivity.putExtra("userDetails", this.user);
+
+        this.startActivityForResult(profileActivity, 1);
     }
 
     private void fillGameSliders() {

@@ -42,7 +42,7 @@ public class SteamJsonParser {
                         )
                     );
             }catch (Exception e){
-                Log.println(Log.ERROR,"asdasd", e.toString());
+                Log.println(Log.ERROR,"SteamJsonParser:Error", e.toString());
             }
         }
         return list;

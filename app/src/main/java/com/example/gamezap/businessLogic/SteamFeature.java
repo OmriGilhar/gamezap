@@ -1,5 +1,6 @@
 package com.example.gamezap.businessLogic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SteamFeature {
@@ -39,4 +40,13 @@ public class SteamFeature {
     public void setGames(List<Game> games) {
         this.games = games;
     }
+
+    public ArrayList<String> getGamesNames(){
+        ArrayList<String> gamesNames = new ArrayList<>();
+        for(Game game: this.getGames()){
+            gamesNames.add(game.getName());
+        }
+        return gamesNames;
+    }
+
 }
