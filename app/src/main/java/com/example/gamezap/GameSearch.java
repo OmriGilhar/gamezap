@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,12 +34,9 @@ import com.example.gamezap.utils.SteamJsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -48,6 +44,7 @@ public class GameSearch extends AppCompatActivity {
     private User user;
     private Game randomGame;
     private List<SteamFeature> steamFeatures;
+    private List<Game> gameList;
     private Adapter_Game adapter_comingSoon_games;
     private Adapter_Game adapter_specials_games;
     private Adapter_Game adapter_topSellers_games;
@@ -92,9 +89,8 @@ public class GameSearch extends AppCompatActivity {
 
     private void initRandomButton() {
         gameSearch_BTN_random.setOnClickListener(v -> {
-            int steamAppSize = 110000;
-            int numToRand = new Random().nextInt(steamAppSize - 2) + 2;
-            requestGameByID(numToRand);
+            Game randomGame = gameList.get(new Random().nextInt(gameList.size()));
+            requestGameByID(randomGame.getId());
         });
 
     }
@@ -140,10 +136,19 @@ public class GameSearch extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            goToRandomGame(SteamJsonParser.parseSteamGame(response, id));
-                        } catch (JSONException e) {
-                            Log.println(Log.ERROR, "Error", e.toString());
+                        int tries = 0;
+                        int randID;
+                        while(tries != 10){
+                            randID = id + (new Random().nextInt(500 + 1));
+                            try {
+                                if(tries == 9) {
+                                    randID = id;
+                                }
+                                goToRandomGame(SteamJsonParser.parseSteamGame(response, randID));
+                                break;
+                            } catch (JSONException e) {
+                                tries += 1;
+                            }
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -194,19 +199,20 @@ public class GameSearch extends AppCompatActivity {
 
     private void initSearchBar() {
         search_SRV_search.setQueryHint("Search Game...");
-        List<String> newList = new ArrayList<>();
+        gameList = new ArrayList<>();
+        List<String> gameListStrings = new ArrayList<>();
         for(SteamFeature feature: steamFeatures) {
-            newList.addAll(feature.getGamesNames());
+            gameList.addAll(feature.getGames());
         }
-        for(int i=0; i<newList.size(); i++){
-            Log.println(Log.INFO, "asdasd", newList.get(i));
+        for(Game game: gameList){
+            gameListStrings.add(game.getName());
         }
-        adapter = new ArrayAdapter<>(GameSearch.this, android.R.layout.simple_list_item_1, newList);
+        adapter = new ArrayAdapter<>(GameSearch.this, android.R.layout.simple_list_item_1, gameListStrings);
         gameSearch_LVW_gameList.setAdapter(adapter);
         search_SRV_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if(newList.contains(query)){
+                if(gameListStrings.contains(query)){
                     adapter.getFilter().filter(query);
                 }else{
                     Toast.makeText(GameSearch.this, "No Match found", Toast.LENGTH_LONG).show();
