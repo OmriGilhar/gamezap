@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/my_gradient_drawable"
     android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".GameSearch"
-    tools:deviceIds="wear">
+    tools:context=".GameSearch">
 
     <LinearLayout
         android:id="@+id/game_LYO_bottom"
@@ -70,18 +69,20 @@
             android:layout_height="0dp"
             android:layout_weight="0.3"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:padding="16dp"
+            android:orientation="vertical">
 
-            <SearchView
-                android:id="@+id/search_SRV_search"
+            
+            <AutoCompleteTextView
+                android:id="@+id/gameSearch_ACT_searchBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/light_gray"
-                android:background="@color/blue_light"
-                android:textSize="18sp"
-                android:inputType="text">
-                <requestFocus />
-            </SearchView>
+                android:layout_height="40dp"
+                android:hint="Search Game..."
+                android:completionThreshold="1"
+                android:completionHint="Search Game..."
+                />
+            
+
         </LinearLayout>
 
         <LinearLayout

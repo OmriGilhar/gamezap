@@ -2,11 +2,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:gravity="center_vertical"
     android:layout_height="150dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp">
+        android:background="@color/blue_heavy"
+        android:layout_height="130dp">
 
         <ImageButton
             android:id="@+id/company_IMG_logo"
@@ -15,7 +17,8 @@
             android:layout_weight="1"
             android:scaleType="fitXY"
             android:layout_margin="30dp"
-            android:contentDescription="@string/company_IMG_logoDesc" />
+            android:contentDescription="@string/company_IMG_logoDesc"
+            android:background="@drawable/_280px_steam_icon_logo"/>
 
         <TextView
             android:id="@+id/company_TXT_name"
