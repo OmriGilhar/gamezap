@@ -2,14 +2,11 @@ package com.example.gamezap.businessLogic;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.gamezap.GamePage;
-import com.example.gamezap.GameSearch;
-import com.example.gamezap.ProfilePage;
 import com.example.gamezap.R;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

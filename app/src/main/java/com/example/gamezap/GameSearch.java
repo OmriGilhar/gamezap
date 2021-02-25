@@ -23,6 +23,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
 import com.example.gamezap.businessLogic.Adapter_Game;
+import com.example.gamezap.businessLogic.Adapter_Sliders;
 import com.example.gamezap.businessLogic.Game;
 import com.example.gamezap.businessLogic.SteamFeature;
 import com.example.gamezap.businessLogic.User;
@@ -42,12 +43,8 @@ public class GameSearch extends AppCompatActivity {
     private User user;
     private List<SteamFeature> steamFeatures;
     private List<Game> gameList;
-    private Adapter_Game adapter_comingSoon_games;
-    private Adapter_Game adapter_specials_games;
-    private Adapter_Game adapter_topSellers_games;
-    private RecyclerView gameSearch_RCY_topSellers;
-    private RecyclerView gameSearch_RCY_specials;
-    private RecyclerView gameSearch_RCY_comingSoon;
+    private Adapter_Sliders adapter_sliders_games;
+    private RecyclerView gameSearch_RCY_sliders;
     private CircleImageView gameSearch_IMG_profile;
     private AutoCompleteTextView gameSearch_ACT_searchBar;
     private ArrayAdapter adapter;
@@ -63,9 +60,7 @@ public class GameSearch extends AppCompatActivity {
     }
 
     private void findViews() {
-        gameSearch_RCY_topSellers = findViewById(R.id.gameSearch_RCY_topSellers);
-        gameSearch_RCY_specials = findViewById(R.id.gameSearch_RCY_specials);
-        gameSearch_RCY_comingSoon = findViewById(R.id.gameSearch_RCY_comingSoon);
+        gameSearch_RCY_sliders = findViewById(R.id.gameSearch_RCY_sliders);
         gameSearch_IMG_profile = findViewById(R.id.gameSearch_IMG_profile);
         gameSearch_ACT_searchBar = findViewById(R.id.gameSearch_ACT_searchBar);
         gameSearch_BTN_random = findViewById(R.id.gameSearch_BTN_random);
@@ -98,10 +93,7 @@ public class GameSearch extends AppCompatActivity {
 
     private void initRecycleViews() {
         // Set the horizontal layout manager as the layout manager of the recycle views.
-        gameSearch_RCY_topSellers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        gameSearch_RCY_specials.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        gameSearch_RCY_comingSoon.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
+        gameSearch_RCY_sliders.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
     private void setupNetwork() {
@@ -149,7 +141,9 @@ public class GameSearch extends AppCompatActivity {
                     steamFeatures = SteamJsonParser.parseSteamFeatured(response);
 
                     // Fill sliders with content
-                    fillGameSliders();
+//                    fillGameSliders();
+                    this.adapter_sliders_games = new Adapter_Sliders(this, steamFeatures, this.user);
+                    gameSearch_RCY_sliders.setAdapter(adapter_sliders_games);
                     initSearchBar();
                 }, error -> Log.println(Log.ERROR, "GameSearch:Error", "Request Error" + error.toString()));
 
@@ -203,26 +197,26 @@ public class GameSearch extends AppCompatActivity {
         this.startActivityForResult(profileActivity, 1);
     }
 
-    private void fillGameSliders() {
-        fillTopSellers();
-        fillSpecials();
-        fillComingSoon();
-    }
-
-    private void fillComingSoon() {
-        this.adapter_comingSoon_games = new Adapter_Game(this, steamFeatures.get(1).getGames(), this.user);
-        gameSearch_RCY_comingSoon.setAdapter(adapter_comingSoon_games);
-    }
-
-    private void fillSpecials() {
-        this.adapter_specials_games = new Adapter_Game(this, steamFeatures.get(4).getGames(), this.user);
-        gameSearch_RCY_specials.setAdapter(adapter_specials_games);
-    }
-
-    private void fillTopSellers() {
-        this.adapter_topSellers_games = new Adapter_Game(this, steamFeatures.get(0).getGames(), this.user);
-        gameSearch_RCY_topSellers.setAdapter(adapter_topSellers_games);
-    }
+//    private void fillGameSliders() {
+//        fillTopSellers();
+//        fillSpecials();
+//        fillComingSoon();
+//    }
+//
+//    private void fillComingSoon() {
+//        this.adapter_comingSoon_games = new Adapter_Game(this, steamFeatures.get(1).getGames(), this.user);
+//        gameSearch_RCY_comingSoon.setAdapter(adapter_comingSoon_games);
+//    }
+//
+//    private void fillSpecials() {
+//        this.adapter_specials_games = new Adapter_Game(this, steamFeatures.get(4).getGames(), this.user);
+//        gameSearch_RCY_specials.setAdapter(adapter_specials_games);
+//    }
+//
+//    private void fillTopSellers() {
+//        this.adapter_topSellers_games = new Adapter_Game(this, steamFeatures.get(0).getGames(), this.user);
+//        gameSearch_RCY_topSellers.setAdapter(adapter_topSellers_games);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -230,9 +224,10 @@ public class GameSearch extends AppCompatActivity {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 user = data.getParcelableExtra("userDetails");
-                this.adapter_comingSoon_games.setUser(user);
-                this.adapter_topSellers_games.setUser(user);
-                this.adapter_specials_games.setUser(user);
+                this.adapter_sliders_games.setUser(user);
+//                this.adapter_comingSoon_games.setUser(user);
+//                this.adapter_topSellers_games.setUser(user);
+//                this.adapter_specials_games.setUser(user);
             }
         }
     }
