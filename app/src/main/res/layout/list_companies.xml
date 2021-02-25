@@ -3,20 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:gravity="center_vertical"
-    android:layout_height="150dp">
+    android:layout_height="100dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@color/blue_heavy"
-        android:layout_height="130dp">
+        android:layout_height="80dp">
 
         <ImageButton
             android:id="@+id/company_IMG_logo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:layout_margin="30dp"
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="30dp"
+            android:layout_marginVertical="10dp"
             android:contentDescription="@string/company_IMG_logoDesc"
             android:background="@drawable/_280px_steam_icon_logo"/>
 

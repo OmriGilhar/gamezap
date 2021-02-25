@@ -62,7 +62,6 @@ public class Adapter_Game extends RecyclerView.Adapter<Adapter_Game.MyViewHolder
             ((Activity)mInflater.getContext()).startActivityForResult(gamePageActivity, 1);
         });
     }
-
     // total number of rows
     @Override
     public int getItemCount() {
